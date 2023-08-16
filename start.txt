@@ -1,0 +1,28 @@
+sudo apt-get update
+sudo apt-get install g++
+g++ -o megaDLP megaDLP.cpp
+sudo apt-get install libudev-dev
+g++ -o megaDLP megaDLP.cpp -ludev
+g++ -o megaDLPService megaDLPService.cpp -ludev
+
+Run as Service:
+
+sudo nano /etc/systemd/system/megaDLPService.service
+
+Add:
+[Unit]
+Description=Server Information Service
+After=network.target
+
+[Service]
+ExecStart=/full/path/.../megaDLPService
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl daemon-reload
+sudo systemctl enable megaDLPService
+sudo systemctl start megaDLPService
+sudo systemctl status megaDLPService
