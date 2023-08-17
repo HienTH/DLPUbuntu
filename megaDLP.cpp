@@ -6,10 +6,11 @@
 #include <libudev.h>
 
 void displayHelp() {
-    std::cout << "Usage: server_info [OPTIONS]" << std::endl;
+    std::cout << "Usage: ./megaDLP [OPTIONS]" << std::endl;
     std::cout << "Options:" << std::endl;
     std::cout << "  -h, --help     Display this help message" << std::endl;
-    std::cout << "  -showlog       Show USB device log" << std::endl;
+	std::cout << "  -i     Display Agent Info" << std::endl;
+    std::cout << "  -showlog       Show Connecting logging" << std::endl;
     std::cout << "  -showinfo      Show Hardware Information" << std::endl;
     std::cout << "  -enableusb        Enable a USB Connection" << std::endl;
     std::cout << "  -disableusb        Enable a USB Connection" << std::endl;
@@ -107,6 +108,41 @@ void enableAllUsbDevices() {
     removeUdevRule();
 }
 
+using json = nlohmann::json;
+
+int showAgentInfo() {
+    try {
+        // Read the JSON file
+        std::ifstream inputFile("agentInfo.json");
+        if (!inputFile.is_open()) {
+            std::cerr << "Failed to open agentInfo.json" << std::endl;
+            return 1;
+        }
+
+        json jsonData;
+        inputFile >> jsonData;
+        inputFile.close();
+
+        // Extract and display information
+        int id = jsonData["id"];
+        std::string username = jsonData["username"];
+        std::string email = jsonData["email"];
+        int status = jsonData["status"];
+        int installed = jsonData["installed"];
+
+        std::cout << "ID: " << id << std::endl;
+        std::cout << "Username: " << username << std::endl;
+        std::cout << "Email: " << email << std::endl;
+        std::cout << "Status: " << status << std::endl;
+        std::cout << "Installed: " << installed << std::endl;
+    } catch (const std::exception &e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
+    }
+
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
 
     // Get the hostname
@@ -122,7 +158,7 @@ int main(int argc, char *argv[]) {
     std::strftime(timeString, sizeof(timeString), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
 
     // Display server information
-    std::cout << "Server Information:" << std::endl;
+    std::cout << "------------MegaDLP Agent For Linux---------------" << std::endl;
     std::cout << "Hostname: " << hostname << std::endl;
     std::cout << "Current Time: " << timeString << std::endl;
 
@@ -139,6 +175,8 @@ int main(int argc, char *argv[]) {
             displayHelp();
         } else if (arg == "-showlog") {
             displayLogs();
+		} else if (arg == "-i") {
+            showAgentInfo();
         } else if (arg == "-showinfo") {
             displayHardwareInfo();
         } else if (arg == "-enableUSB") {
