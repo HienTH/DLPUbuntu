@@ -1,3 +1,9 @@
+Hướng dẫn cài đặt chương trình MegaDLP Agent For Ubuntu
+
+1. Tải bộ phần mềm về agent:
+Giải nén vào thư mục /opt/MegaDLP/
+
+2. Thực hiện build:
 sudo apt-get update
 sudo apt-get install g++
 sudo apt-get install libudev-dev
@@ -6,12 +12,10 @@ g++ -o megaDLP megaDLP.cpp -ludev
 g++ -o megaDLPService megaDLPService.cpp -ludev
 g++ -o megaDLPService megaDLPServiceMon.cpp -ludev
 
-
-Run as Service:
-
+3. Khởi tạo MegaDLPService:
 sudo nano /etc/systemd/system/megaDLPService.service
 
-Add:
+Thêm nội dung vào file service:
 [Unit]
 Description=Server Information Service
 After=network.target
@@ -23,16 +27,15 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 
-
+Execute command:
 sudo systemctl daemon-reload
 sudo systemctl enable megaDLPService
 sudo systemctl start megaDLPService
-sudo systemctl status megaDLPService
 
-
+4. Khởi tạo MegaDLPServiceMon:
 sudo nano /etc/systemd/system/megaDLPServiceMon.service
 
-Add:
+Thêm nội dung vào file service:
 [Unit]
 Description=Server Information Service
 After=network.target
@@ -47,4 +50,18 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl enable megaDLPServiceMon
 sudo systemctl start megaDLPServiceMon
+
+
+
+5. Hướng dẫn sử dụng MegaDLP Service For Ubuntu
+./megaDLP -h
+sudo systemctl status megaDLPService
 sudo systemctl status megaDLPServiceMon
+
+Tính năng:
+Kiểm tra thông tin Agent
+Kiểm tra thông tin Server
+Lưu nhật ký truy cập USB device
+Cho phép/Chặn truy cập USB device
+Lưu nhật ký copy dữ liệu đến USB device
+Đang cập nhật
