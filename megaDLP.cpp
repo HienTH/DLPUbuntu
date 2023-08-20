@@ -4,6 +4,7 @@
 #include <fstream>
 #include <unistd.h>
 #include <libudev.h>
+#include <nlohmann/json.hpp>
 
 void displayHelp() {
     std::cout << "Usage: ./megaDLP [OPTIONS]" << std::endl;
