@@ -7,10 +7,10 @@ Giải nén vào thư mục /opt/MegaDLP/
 sudo apt-get update
 sudo apt-get install g++
 sudo apt-get install libudev-dev
+sudo apt-get install libudev-dev
 g++ -o megaDLP megaDLP.cpp
-g++ -o megaDLP megaDLP.cpp -ludev
 g++ -o megaDLPService megaDLPService.cpp -ludev
-g++ -o megaDLPService megaDLPServiceMon.cpp -ludev
+g++ -o megaDLPServiceMon megaDLPServiceMon.cpp -ludev
 
 3. Khởi tạo MegaDLPService:
 sudo nano /etc/systemd/system/megaDLPService.service
