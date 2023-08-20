@@ -16,12 +16,13 @@ g++ -o megaDLPServiceMon megaDLPServiceMon.cpp -ludev
 sudo nano /etc/systemd/system/megaDLPService.service
 
 Thêm nội dung vào file service:
+
 [Unit]
 Description=Server Information Service
 After=network.target
 
 [Service]
-ExecStart=/full/path/.../megaDLPService
+ExecStart=/opt/MegaDLP/megaDLPService
 Restart=always
 
 [Install]
@@ -41,7 +42,7 @@ Description=Server Information Service
 After=network.target
 
 [Service]
-ExecStart=/full/path/.../megaDLPServiceMon
+ExecStart=/opt/MegaDLP/megaDLPServiceMon
 Restart=always
 
 [Install]
