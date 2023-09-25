@@ -1,0 +1,11 @@
+[Unit]
+Description=API Post Tool Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/MegaDLP/serviceLog.py
+WorkingDirectory=/opt/MegaDLP/
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

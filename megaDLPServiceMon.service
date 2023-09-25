@@ -1,0 +1,10 @@
+[Unit]
+Description=Server Information Service
+After=network.target
+
+[Service]
+ExecStart=/opt/MegaDLP/megaDLPServiceMon
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

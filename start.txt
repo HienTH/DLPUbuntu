@@ -1,5 +1,9 @@
 Hướng dẫn cài đặt chương trình MegaDLP Agent For Ubuntu
 
+git clone https://github.com/HienTH/DLPUbuntu.git
+
+mv DLPUbuntu/ MegaDLP/
+
 1. Tải bộ phần mềm về agent:
 Giải nén vào thư mục /opt/MegaDLP/
 
@@ -7,12 +11,13 @@ Giải nén vào thư mục /opt/MegaDLP/
 sudo apt-get update
 sudo apt-get install g++
 sudo apt-get install libudev-dev
-sudo apt-get install libudev-dev
+sudo apt-get install nlohmann-json3-dev
 g++ -o megaDLP megaDLP.cpp
 g++ -o megaDLPService megaDLPService.cpp -ludev
 g++ -o megaDLPServiceMon megaDLPServiceMon.cpp -ludev
 
-3. Khởi tạo MegaDLPService:
+3. Khởi tạo MegaDLPService: cp megaDLPService.service /etc/systemd/system/megaDLPService.service
+
 sudo nano /etc/systemd/system/megaDLPService.service
 
 Thêm nội dung vào file service:
@@ -32,11 +37,15 @@ Execute command:
 sudo systemctl daemon-reload
 sudo systemctl enable megaDLPService
 sudo systemctl start megaDLPService
+sudo systemctl status megaDLPService
 
-4. Khởi tạo MegaDLPServiceMon:
+
+4. Khởi tạo MegaDLPServiceMon: cp megaDLPServiceMon.service /etc/systemd/system/megaDLPServiceMon.service
+
 sudo nano /etc/systemd/system/megaDLPServiceMon.service
 
 Thêm nội dung vào file service:
+
 [Unit]
 Description=Server Information Service
 After=network.target
@@ -51,6 +60,47 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl enable megaDLPServiceMon
 sudo systemctl start megaDLPServiceMon
+sudo systemctl status megaDLPServiceMon
+
+
+
+screen -S mysession -d -m ./megaDLPServiceMon
+screen -S mysession -d -m python3 serviceLog.py
+
+
+
+
+screen -S mysession -d -m ./megaDLPService
+screen -S mysession -d -m python3 serviceLog.py
+
+---------Log Service-------------
+pip3 install requests
+
+
+python3 serviceLog.py
+
+nano /etc/systemd/system/serviceLog.service
+
+[Unit]
+Description=API Post Tool Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/MegaDLP/serviceLog.py
+WorkingDirectory=/opt/MegaDLP
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl daemon-reload
+sudo systemctl enable serviceLog
+sudo systemctl start serviceLog
+sudo systemctl status serviceLog
+
+
+
 
 
 
