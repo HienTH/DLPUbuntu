@@ -16,88 +16,37 @@ g++ -o megaDLP megaDLP.cpp
 g++ -o megaDLPService megaDLPService.cpp -ludev
 g++ -o megaDLPServiceMon megaDLPServiceMon.cpp -ludev
 
-3. Khởi tạo MegaDLPService: cp megaDLPService.service /etc/systemd/system/megaDLPService.service
-
-sudo nano /etc/systemd/system/megaDLPService.service
-
-Thêm nội dung vào file service:
-
-[Unit]
-Description=Server Information Service
-After=network.target
-
-[Service]
-ExecStart=/opt/MegaDLP/megaDLPService
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-
-Execute command:
+3. Khởi tạo MegaDLPService: 
+cp megaDLPService.service /etc/systemd/system/megaDLPService.service
 sudo systemctl daemon-reload
 sudo systemctl enable megaDLPService
 sudo systemctl start megaDLPService
 sudo systemctl status megaDLPService
 
 
-4. Khởi tạo MegaDLPServiceMon: cp megaDLPServiceMon.service /etc/systemd/system/megaDLPServiceMon.service
-
-sudo nano /etc/systemd/system/megaDLPServiceMon.service
-
-Thêm nội dung vào file service:
-
-[Unit]
-Description=Server Information Service
-After=network.target
-
-[Service]
-ExecStart=/opt/MegaDLP/megaDLPServiceMon
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-
+4. Khởi tạo MegaDLPServiceMon: 
+cp megaDLPServiceMon.service /etc/systemd/system/megaDLPServiceMon.service
 sudo systemctl daemon-reload
 sudo systemctl enable megaDLPServiceMon
 sudo systemctl start megaDLPServiceMon
 sudo systemctl status megaDLPServiceMon
 
-
-
 screen -S mysession -d -m ./megaDLPServiceMon
-screen -S mysession -d -m python3 serviceLog.py
-
-
-
-
 screen -S mysession -d -m ./megaDLPService
-screen -S mysession -d -m python3 serviceLog.py
 
 ---------Log Service-------------
 pip3 install requests
 
-
+Sửa ipaddress
 python3 serviceLog.py
-
-nano /etc/systemd/system/serviceLog.service
-
-[Unit]
-Description=API Post Tool Service
-After=network.target
-
-[Service]
-ExecStart=/usr/bin/python3 /opt/MegaDLP/serviceLog.py
-WorkingDirectory=/opt/MegaDLP
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-
-
+cp serviceLog.service /etc/systemd/system/serviceLog.service
 sudo systemctl daemon-reload
 sudo systemctl enable serviceLog
 sudo systemctl start serviceLog
 sudo systemctl status serviceLog
+
+screen -S mysession -d -m python3 serviceLog.py
+
 
 
 
