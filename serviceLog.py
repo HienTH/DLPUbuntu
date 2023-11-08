@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 
 # API endpoint URL
-url = "http://ipaddress:9092/api/loglinux/save_log_linux"
+url = "http://10.0.202.100:9090/api/loglinux/save_log_linux"
 
 while True:
 
@@ -69,9 +69,9 @@ while True:
                 })
 
     logData = {
-        "id_adm_member": 129,
+        "id_adm_member": 120,
         "id_adm_company": 1,
-        "id_adm_department": 198,
+        "id_adm_department": 197,
         "log": extracted_data
     }
 
